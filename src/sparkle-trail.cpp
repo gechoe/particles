@@ -45,8 +45,28 @@ public:
     }
   }
 
-  void updateConfetti()
+  void updateConfetti(float dt)
   {
+    vec3 cameraPos = renderer.cameraPosition();
+
+    // for (int i = 0; i < mParticles.size(); i++)
+    // {
+    //   Particle particle = mParticles[i];
+    //   particle.pos += particle.vel * dt;
+    //   if (particle.pos.x < -1 || particle.pos.x > 1) particle.vel.x = -particle.vel.x;
+    //   if (particle.pos.y < -1 || particle.pos.y > 1) particle.vel.y = -particle.vel.y;
+    //   if (particle.pos.z < -1 || particle.pos.z > 1) particle.vel.z = -particle.vel.z;
+    //   mParticles[i] = particle;
+    // }
+
+    for (int i = 0; i < mParticles.size(); i++) {
+      Particle particle = mParticles[i];
+      particle.pos = vec3(2 * cos(val) + cameraPos.x, 2 * sin(val) + cameraPos.y, 0);
+      mParticles[i] = particle;
+      
+    }
+
+    val += 0.1;
   }
 
   void drawConfetti()
@@ -83,19 +103,21 @@ public:
 
     renderer.lookAt(eyePos, lookPos, up);
     renderer.sprite(position, vec4(1.0f), 0.25f);
-    updateConfetti();
+    updateConfetti(dt());
     drawConfetti();
     renderer.endShader();
   }
 
 protected:
 
-  vec3 eyePos = vec3(0, 0, 3);
+  vec3 eyePos = vec3(0, 0, 5); // vec3(0, 0, 3);
   vec3 lookPos = vec3(0, 0, 0);
   vec3 up = vec3(0, 1, 0);
   vec3 position = vec3(1, 0, 0);
 
   std::vector<Particle> mParticles;
+
+  float val = 0;
 };
 
 int main(int argc, char** argv)

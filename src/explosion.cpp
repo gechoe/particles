@@ -46,7 +46,11 @@ public:
     renderer.texture("image", "explosion");
 
     // 30 fps => each frame 1/30 long, e.g. when time = 1s, we play frame 30
-    frame = 0;
+    // frame = 0;
+    int numFrames = elapsedTime() * 30; // Finds current frame based on time
+    int uniqueFrames = numRows * numCols; // Finds the amount of unique frames
+    frame = numFrames % uniqueFrames; // Gets which frame type it is
+
     renderer.setUniform("Frame", frame);
     renderer.setUniform("Rows", numRows);
     renderer.setUniform("Cols", numCols);

@@ -18,7 +18,12 @@ out vec2 uv;
 void main()
 {
   color = Color;
-  uv = vPosition.xy; // todo: compute UV coordinates based on Frame
+  // uv = vPosition.xy; // todo: compute UV coordinates based on Frame
+  int frameRow = (Frame - 1) / Rows; // Gets frame's specific row
+  int frameCol = (Frame - 1) % Cols; // Gets frame's specific column
+  float xVal = (vPosition.x + frameCol) / Cols;
+  float yVal = -1 * (vPosition.y + frameRow) / Rows;
+  uv = vec2(xVal, yVal);
   
   vec3 z = normalize(CameraPos - Offset);
   vec3 x = normalize(cross(vec3(0,1,0), z));
