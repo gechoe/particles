@@ -94,11 +94,23 @@ set(SHADERS
 add_executable(sparkle-trail src/sparkle-trail.cpp ${SOURCES} ${SHADERS})
 target_link_libraries(sparkle-trail ${CORE})
 
+add_executable(flower src/flower.cpp ${SOURCES} ${SHADERS})
+target_link_libraries(flower ${CORE})
+
 add_executable(sparkles src/sparkles.cpp ${SOURCES} ${SHADERS})
 target_link_libraries(sparkles ${CORE})
 
 add_executable(explosion src/explosion.cpp ${SOURCES} ${SHADERS})
 target_link_libraries(explosion ${CORE})
+
+add_executable(fire src/fire.cpp ${SOURCES} ${SHADERS})
+target_link_libraries(fire ${CORE})
+
+add_executable(sand src/sand.cpp ${SOURCES} ${SHADERS})
+target_link_libraries(sand ${CORE})
+
+add_executable(rain src/rain.cpp ${SOURCES} ${SHADERS})
+target_link_libraries(rain ${CORE})
 
 add_executable(billboard-axis src/billboard-axis.cpp ${SOURCES} ${SHADERS})
 target_link_libraries(billboard-axis ${CORE})

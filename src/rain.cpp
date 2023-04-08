@@ -27,81 +27,58 @@ public:
 
   void setup() {
     setWindowSize(1000, 1000);
-    createConfetti(500);
+    createRainDrops(500);
     renderer.setDepthTest(false);
     renderer.blendMode(agl::ADD);
   }
 
-  void createConfetti(int size)
+  void createRainDrops(int size)
   {
-    renderer.loadTexture("particle", "../textures/star4.png", 0);
+    renderer.loadTexture("particle", "../textures/cube.png", 0);
     for (int i = 0; i < size; i++)
     {
       Particle particle;
-      particle.color = vec4(agl::randomUnitCube(), 1);
-      particle.size = 0.25;
+      particle.color = vec4(0.4, 0.7, 1, 1);
+      particle.size = 0.05;
       particle.rot = 0.0;
-      particle.pos = agl::randomUnitCube();
-      particle.vel = agl::randomUnitCube();
-      particle.isDone = true;
+      int randLoc = (1 + (rand() % 9)) / 10;
+      int randSection = (rand() % 3);
+      particle.pos = vec3(randLoc + randSection, 3, 0);
+      particle.vel = vec3(0, -0.1, 0);
+    //   particle.isDone = true;
       mParticles.push_back(particle);
     }
   }
 
-  void updateConfetti(float dt)
+  void updateRainDrops(float dt)
   {
-    // Particle particle = mParticles[iter];
-    // float delta = (float)(particle.prevPos - particle.pos);
-
-    // if (delta > threshold) {
-    //   for (int i = 0; i < mParticles.size(); i++) {
-    //     Particle inPart = mParticles[i];
-
-    //     if (inPart.isDone) {
-          
-    //     }
-    //   }
-    // }
-
-    // for (int j = 0; j < mParticles.size(); j++) {
-    //   Particle otherParticle = mParticles[j];
-
-    //   if (otherParticle.isDone) {
-          
-    //   }
-    // }
-
-    
-
     for (int i = 0; i < mParticles.size(); i++) {
       Particle particle = mParticles[i];
       
-      if (particle.isDone) {
-        particle.pos = position;
-        particle.color = vec4(agl::randomUnitCube(), 1);
-        particle.size = 0.25;
-        particle.rot = 0.0;
-        particle.vel = agl::randomUnitCube();
-        particle.isDone = false;
-      } else {
+    //   if (particle.isDone) {
+    //     // particle.pos = position;
+    //     // particle.rot = 0.0;
+    //     particle.vel = agl::randomUnitCube();
+    //     // particle.isDone = false;
+    //   } else {
         // particle.prevPos = particle.pos;
+        particle.pos += dt + particle.vel;
         // particle.pos = particle.pos + dt * particle.vel;
-        particle.pos = particle.pos + dt * particle.vel;
-        particle.rot += 0.1;
-        particle.size += 0.001;
+        // particle.rot += 0.1;
+        // particle.size += 0.001;
 
-        particle.color.w -= 0.008;
-        if (particle.color.w < 0) {
-          particle.color.w = 0;
-          particle.isDone = true;
-        }
-      }
+        // particle.color.w -= 0.008;
+        // if (particle.color.w < 0) {
+        //   particle.color.w = 0;
+        //   particle.isDone = true;
+        // }
+    //   }
 
       mParticles[i] = particle;
     }
   }
 
-  void drawConfetti()
+  void drawRainDrops()
   {
     renderer.texture("image", "particle");
     for (int i = 0; i < mParticles.size(); i++)
@@ -135,11 +112,11 @@ public:
 
     renderer.lookAt(eyePos, lookPos, up);
     // vec3 cameraPos = renderer.cameraPosition();
-    position = vec3(2 * cos(val) + cameraPos.x, 2 * sin(val) + cameraPos.y, 0);
-    val += 0.02;
-    renderer.sprite(position, vec4(1.0f), 0.25f);
-    updateConfetti(dt());
-    drawConfetti();
+    // position = vec3(2 * cos(val) + cameraPos.x, 2 * sin(val) + cameraPos.y, 0);
+    // val += 0.02;
+    // renderer.sprite(position, vec4(1.0f), 0.25f);
+    updateRainDrops(dt());
+    drawRainDrops();
     renderer.endShader();
   }
 
