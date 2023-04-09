@@ -27,7 +27,7 @@ public:
 
   void setup() {
     setWindowSize(1000, 1000);
-    createRainDrops(1000);
+    createBlackhole(2000);
     renderer.setDepthTest(false);
     renderer.blendMode(agl::ADD);
   }
@@ -38,73 +38,96 @@ public:
     return randNumInRange;
   }
 
-  void createRainDrops(int size) {
-    renderer.loadTexture("particle", "../textures/raindrop.png", 0);
+  void createBlackhole(int size) {
+    renderer.loadTexture("particle", "../textures/oval.png", 0);
     for (int i = 0; i < size; i++) {
       Particle particle;
-      particle.color = vec4(0.4, 0.7, 1, 1);
-      particle.size = 0.05;
+      int randCol = 1 + (rand() % 3);
+
+      if (randCol == 1) {
+        particle.color = vec4(0.54, 0.45, 0.89, 1);
+      } else if (randCol == 2) {
+        particle.color = vec4(0.4, 0.2, 0.8, 1);
+      } else {
+        particle.color = vec4(0.0, 0.0, 0.7, 1);
+      }
+
+      particle.size = randomize(0.05, 0.15);
 
       float randPosX = randomize(left, right);
+      float randPosY = randomize(bottom, top);
       float randPosZ = randomize(back, front);
-      particle.pos = vec3(randPosX, top, randPosZ);
+
+      particle.pos = vec3(randPosX, randPosY, randPosZ);
       
-      float rVelY = randomize(speed, speed * 2);
+      float rVelY = randomize(speed, 0);
       particle.vel = vec3(0, rVelY, 0);
       
-      rainDropParticles.push_back(particle);
+      blackholeParticles.push_back(particle);
+      resetParticles.push_back(particle);
     }
   }
 
-  void updateRainDrops(float dt) {
-    for (int i = 0; i < rainDropParticles.size(); i++) {
-      Particle particle = rainDropParticles[i];
+  void updateBlackhole(float dt) {
+    for (int i = 0; i < blackholeParticles.size(); i++) {
+      Particle particle = blackholeParticles[i];
+
+      if (particle.color.w <= 0) {
+        doneParticles++;
+        std::cout << doneParticles << std::endl;
+      }
+
+      if (doneParticles == blackholeParticles.size()) {
+        for (int j = 0; j < blackholeParticles.size(); j++) {
+            blackholeParticles[j] = resetParticles[j];
+        }
+        theta = 0;
+        particle = blackholeParticles[i];
+        doneParticles = 0;
+      }
 
       int randV = rand() % 100;
       float randVel = (speed - (particle.vel.y)) * ((float)randV / 100) + (particle.vel.y);
-      particle.vel = vec3(0, randVel, 0);
+      particle.vel = vec3(0, 0.001, 0); //vec3(0, randVel, 0);
+
+      if (theta >= 120000) {
+        particle.size -= 0.01;
+        if (particle.size < 0.04 && particle.color.w > 0) {
+          particle.color.w -= 0.1;
+        }
+      }
 
       if (particle.prevPos.y <= bottom && particle.pos.y > bottom) {
         particle.pos.x = (cos(theta) + randRadius) * randDir;
         particle.pos.y = (sin(theta) + randRadius) * randDir;
         theta += 0.1;
-      } else if (particle.prevPos.y <= bottom && particle.pos.y <= bottom) {
-        particle.pos = vec3(0, bottom, 0);
-        particle.vel = vec3(0);
-      } else if (particle.pos.y <= bottom) {
+      } else {
         particle.prevPos = particle.pos;
-        // particle.vel = vec3(0);
         randRadius = randomize(0.005, 0.2);
         int twoOptions = 1 + (rand() % 2);
 
         if (twoOptions == 1) {
-            randDir = -1;
+          randDir = -1;
         } else {
-            randDir = 1;
+          randDir = 1;
         }
 
         particle.pos.x += (cos(theta) + randRadius) * randDir;
         particle.pos.y += (sin(theta) + randRadius) * randDir;
         theta += 0.1;
-      } else {
-        particle.pos.y += dt + particle.vel.y;
       }
 
-      rainDropParticles[i] = particle;
+      blackholeParticles[i] = particle;
     }
   }
 
-  void drawRainDrops() {
+  void drawBlackhole() {
     renderer.texture("image", "particle");
 
-    // for (int j = 0; j < 10; j++) {
-      for (int i = 0; i < rainDropParticles.size(); i++) {
-        Particle particle = rainDropParticles[i];
-        // if (particle.pos.x % j == 0) {
-          renderer.sprite(particle.pos, particle.color, particle.size, particle.rot);
-        // }
-      }
-    // }
+    for (int i = 0; i < blackholeParticles.size(); i++) {
+      Particle particle = blackholeParticles[i];
+        renderer.sprite(particle.pos, particle.color, particle.size, particle.rot);
+    }
   }
 
   void mouseMotion(int x, int y, int dx, int dy) {
@@ -129,10 +152,10 @@ public:
     float aspect = ((float)width()) / height();
     renderer.perspective(glm::radians(60.0f), aspect, 0.1f, 50.0f);
     renderer.lookAt(eyePos, lookPos, up);
-    updateRainDrops(dt());
-    drawRainDrops();
 
-    // renderer.sprite(position, vec4(1.0f), 50.2f);
+    updateBlackhole(dt());
+    drawBlackhole();
+
     renderer.endShader();
   }
 
@@ -141,15 +164,16 @@ protected:
   float right = 4.2f;
   float bottom = -2.8f;
   float top = 2.0f;
-  float back = -4.2f;
+  float back = -10.2f;
   float front = -0.2f;
-  float speed = -0.2f;
+  float speed = -0.02f;
   vec3 eyePos = vec3(0, 0, 5); // vec3(0, 0, 3);
   vec3 lookPos = vec3(0, 0, 0);
   vec3 up = vec3(0, 1, 0);
 //   vec3 position = vec3(0, bottom * 10, (back - front) / 2);
 
-  std::vector<Particle> rainDropParticles;
+  std::vector<Particle> blackholeParticles;
+  std::vector<Particle> resetParticles;
 
   float val = 0;
   vec3 cameraPos = renderer.cameraPosition();
@@ -158,6 +182,7 @@ protected:
   int iter = 0;
   float theta = 0;
   float randDir, randRadius;
+  float doneParticles = 0;
 };
 
 int main(int argc, char** argv)

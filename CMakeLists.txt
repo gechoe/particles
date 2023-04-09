@@ -109,6 +109,9 @@ target_link_libraries(fire ${CORE})
 add_executable(sand src/sand.cpp ${SOURCES} ${SHADERS})
 target_link_libraries(sand ${CORE})
 
+add_executable(blackhole src/blackhole.cpp ${SOURCES} ${SHADERS})
+target_link_libraries(blackhole ${CORE})
+
 add_executable(rain src/rain.cpp ${SOURCES} ${SHADERS})
 target_link_libraries(rain ${CORE})
 

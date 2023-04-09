@@ -174,9 +174,12 @@ public:
 
     if (val > 4) {
         val = -4;
+        size = 1.0f;
     }
 
-    renderer.sprite(position, vec4(1.0f), 1.0f);
+    renderer.sprite(position, vec4(1.0f), size);
+    size -= 0.0012f;
+
     updateSandStorm(dt());
     drawSandStorm();
     renderer.endShader();
@@ -191,10 +194,11 @@ protected:
 
   std::vector<Particle> mParticles;
 
-  float val = -4;
+  float val = -4.0f;
   vec3 cameraPos = renderer.cameraPosition();
   vec3 velocity;
   float transp;
+  float size = 1.0f;
 };
 
 int main(int argc, char** argv)
