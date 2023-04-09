@@ -55,23 +55,23 @@ public:
 
   void mouseMotion(int x, int y, int dx, int dy) {
     if (mouseClicked) { //mouseIsDown(GLFW_MOUSE_BUTTON_LEFT)) {
-         upDir(x, dx);
-         rightDir(y, dy);
+      upDir(x, dx);
+      rightDir(y, dy);
 
-         if (azimuth > 360) {
-            azimuth = fmod(azimuth, 360);
-         } else if (azimuth < 0) {
-            azimuth = 360 - fmod(azimuth, 360);
-         }
+      if (azimuth > 360) {
+        azimuth = fmod(azimuth, 360);
+      } else if (azimuth < 0) {
+        azimuth = 360 - fmod(azimuth, 360);
+      }
 
-         if (elevation > 90) {
-            elevation = -90 + fmod(elevation, 90);
-         } else if (elevation < -90) {
-            elevation = 90 + fmod(elevation, -90);
-         } 
+      if (elevation > 90) {
+        elevation = -90 + fmod(elevation, 90);
+      } else if (elevation < -90) {
+        elevation = 90 + fmod(elevation, -90);
+      } 
 
          // eyePos = camLocation(radius, azimuth, elevation);
-      }
+    }
   }
 
   void mouseDown(int button, int mods) {

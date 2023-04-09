@@ -67,7 +67,6 @@ public:
     renderer.perspective(glm::radians(60.0f), aspect, 0.1f, 50.0f);
 
     renderer.lookAt(eyePos, lookPos, up);
-    std::cout << frame << std::endl;
 
     updateFire();
     // transp = 0.6;
