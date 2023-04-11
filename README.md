@@ -55,7 +55,7 @@ TODO: Document the main demos your viewer (shaders + models)
 3. Explosion
 4. Axis billboard
 5. Blackhole
-![Video_6](video/BlackHole.mp4)
+![Video_6](video/BlackHole.mov)
 
 ## Unique features 
 
