@@ -50,6 +50,12 @@ particles/build $ ../bin/explosion
 ## Demo of basic features
 
 TODO: Document the main demos your viewer (shaders + models)
+1. Sparkles
+2. Sparkle Trail
+3. Explosion
+4. Axis billboard
+5. Blackhole
+![Video_6](video/BlackHole.mp4)
 
 ## Unique features 
 
