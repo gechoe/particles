@@ -51,11 +51,15 @@ particles/build $ ../bin/explosion
 
 TODO: Document the main demos your viewer (shaders + models)
 1. Sparkles
+![Video_1](video/sparkles.mov)
 2. Sparkle Trail
+![Video_2](video/sparkle-trail.mov)
 3. Explosion
+![Video_3](video/explosion.mov)
 4. Axis billboard
+![Video_4](video/billboard-axis.mov)
 5. Blackhole
-![Video_6](https://github.com/gechoe/particles/blob/main/video/BlackHole.mov)
+![Video_5](video/BlackHole.mov)
 
 ## Unique features 
 
