@@ -53,7 +53,7 @@ TODO: Document the main demos your viewer (shaders + models)
 1. Sparkles
 ![Video_1](video/sparkles.mov)
 2. Sparkle Trail
-![Video_2](video/sparkle-trail.mov)
+![Video_2](video/sparkle-trai.mov)
 3. Explosion
 ![Video_3](video/explosion.mov)
 4. Axis billboard
