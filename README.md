@@ -59,7 +59,7 @@ TODO: Document the main demos your viewer (shaders + models)
 4. Axis billboard
 ![Video_4](video/billboard-axis.mov)
 5. Blackhole
-![Video_5](video/BlackHole.mov)
+![Video_5](video/BlackHole.gif)
 
 ## Unique features 
 
